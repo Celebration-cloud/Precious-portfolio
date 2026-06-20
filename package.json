@@ -1,0 +1,38 @@
+{
+  "name": "pec-media-production",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
+    "@prisma/client": "^7.8.0",
+    "@sanity/client": "^7.23.0",
+    "@sanity/vision": "^6.1.0",
+    "clsx": "2.1.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.21.0",
+    "next": "^16.2.9",
+    "next-sanity": "^13.1.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-hook-form": "^7.80.0",
+    "resend": "^6.14.0",
+    "sanity": "^6.1.0",
+    "tailwind-merge": "3.4.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^22.19.17",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "prisma": "^7.8.0",
+    "tailwindcss": "4.1.17",
+    "typescript": "5.9.3"
+  }
+}

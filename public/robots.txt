@@ -1,0 +1,10 @@
+# User-agent Rules
+User-agent: *
+Allow: /
+
+# Disallow API and Studio directories for security
+Disallow: /api/
+Disallow: /studio/
+
+# Sitemap Link
+Sitemap: http://localhost:3000/sitemap.xml
