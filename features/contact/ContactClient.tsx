@@ -122,7 +122,7 @@ export default function ContactClient({ businessInfo }: ContactClientProps) {
                   <div>
                     <h3 className="font-semibold text-slate-900 dark:text-white mb-1">Phone</h3>
                     <a 
-                      href={`tel:${businessInfo.phone}`}
+                      href={`tel:${businessInfo.phoneHref}`}
                       className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       {businessInfo.phone}
@@ -167,7 +167,7 @@ export default function ContactClient({ businessInfo }: ContactClientProps) {
                   Chat with us directly for quick responses and instant quotes.
                 </p>
                 <a
-                  href="https://wa.me/234XXXXXXXXXX"
+                  href={businessInfo.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors"
@@ -260,7 +260,7 @@ export default function ContactClient({ businessInfo }: ContactClientProps) {
                           className={`w-full px-4 py-3 bg-white dark:bg-slate-800 border ${
                             errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-700 focus:ring-blue-500'
                           } rounded-xl text-slate-900 dark:text-white placeholder-slate-500 focus:ring-2 focus:border-transparent transition-all outline-none`}
-                          placeholder="+234 XXX XXX XXXX"
+                          placeholder="08133678261"
                         />
                         {errors.phone && (
                           <p className="mt-1 text-xs text-red-500">{errors.phone.message}</p>

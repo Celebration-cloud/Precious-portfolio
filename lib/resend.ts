@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { businessInfo } from '../src/data/content';
 
 const resendApiKey = process.env.RESEND_API_KEY;
 
@@ -11,7 +12,7 @@ export async function sendContactNotification(payload: {
   service?: string;
   message: string;
 }) {
-  const toEmail = process.env.CONTACT_TO_EMAIL || 'contact@pecmediaproduction.com';
+  const toEmail = process.env.CONTACT_TO_EMAIL || businessInfo.email;
   const fromEmail = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
 
   const html = `

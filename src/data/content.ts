@@ -2,21 +2,24 @@
 
 export const businessInfo = {
   name: "PEC Media Production",
+  logo: "/logo/PEC.png",
   tagline: "Creative Media & Digital Solutions Agency",
   description: "A creative media agency dedicated to delivering high-quality visual and digital solutions for individuals, businesses, and organizations.",
   clientName: "Edemu Precious Confidence",
   contactPerson: "Edemu Precious Confidence",
-  email: "contact@pecmediaproduction.com",
-  phone: "+234 XXX XXX XXXX",
-  address: "Nigeria",
+  email: "edemu34@gmail.com",
+  phone: "08133678261",
+  phoneHref: "+2348133678261",
+  whatsappUrl: "https://wa.me/2348133678261",
+  address: "18, Chief Nnadokoye Street, Ajao Estate",
   youtubePlaylist: "https://www.youtube.com/playlist?list=PLmR5CYd4sL43K-ornduhRyAIVY_7xcREw",
   graphicsDrive: "https://drive.google.com/drive/folders/1vGiPgj6mtBaZkoGKZS6G4T5RWusuxun0?usp=drive_link",
   socialMedia: {
-    youtube: "https://youtube.com/@pecmediaproduction",
-    instagram: "https://instagram.com/pecmediaproduction",
-    facebook: "https://facebook.com/pecmediaproduction",
-    twitter: "https://twitter.com/pecmediaproduction",
-    linkedin: "https://linkedin.com/company/pecmediaproduction"
+    youtube: "https://www.youtube.com/playlist?list=PLmR5CYd4sL43K-ornduhRyAIVY_7xcREw",
+    instagram: "https://www.instagram.com/precious_edemu?igsh=MTFsYWlnMWNxNHJreA%3D%3D&utm_source=qr",
+    facebook: "https://www.facebook.com/share/18qjxAcV5N/?mibextid=wwXIfr",
+    tiktok: "https://www.tiktok.com/@precious_edemu?_r=1&_t=ZS-97fblKXta1Y",
+    linkedin: "https://www.linkedin.com/in/edemu-precious-b-sc-86a06619b"
   }
 };
 

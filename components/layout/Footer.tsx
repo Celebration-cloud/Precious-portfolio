@@ -8,6 +8,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { businessInfo, services } from '../../src/data/content';
+import BrandLogo from './BrandLogo';
 
 const quickLinks = [
   { name: 'Home', path: '/' },
@@ -37,9 +38,9 @@ const FacebookIcon = () => (
   </svg>
 );
 
-const TwitterIcon = () => (
+const TikTokIcon = () => (
   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-2-2.76V9.4a6.34 6.34 0 1 0 5.43 6.27V8.73a8.16 8.16 0 0 0 4.77 1.52V6.82c-.33 0-.66-.04-.98-.13Z"/>
   </svg>
 );
 
@@ -53,7 +54,7 @@ const socialLinks = [
   { name: 'YouTube', icon: YouTubeIcon, url: businessInfo.socialMedia.youtube },
   { name: 'Instagram', icon: InstagramIcon, url: businessInfo.socialMedia.instagram },
   { name: 'Facebook', icon: FacebookIcon, url: businessInfo.socialMedia.facebook },
-  { name: 'Twitter', icon: TwitterIcon, url: businessInfo.socialMedia.twitter },
+  { name: 'TikTok', icon: TikTokIcon, url: businessInfo.socialMedia.tiktok },
   { name: 'LinkedIn', icon: LinkedInIcon, url: businessInfo.socialMedia.linkedin },
 ];
 
@@ -65,10 +66,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">PEC</span>
-              </div>
+            <Link
+              href="/"
+              className="mb-6 flex items-center space-x-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+              aria-label={`${businessInfo.name} home`}
+            >
+              <BrandLogo className="h-14 w-[4.75rem]" />
               <div>
                 <h3 className="text-white font-bold text-lg">{businessInfo.name}</h3>
                 <p className="text-slate-400 text-xs">Media Production</p>
@@ -145,7 +148,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href={`tel:${businessInfo.phone}`}
+                  href={`tel:${businessInfo.phoneHref}`}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors flex items-start"
                 >
                   <Phone className="w-5 h-5 mr-3 flex-shrink-0 text-blue-500" />
@@ -162,7 +165,7 @@ export default function Footer() {
             
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/234XXXXXXXXXX"
+              href={businessInfo.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"

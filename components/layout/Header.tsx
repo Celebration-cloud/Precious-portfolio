@@ -7,6 +7,7 @@ import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { businessInfo } from '../../src/data/content';
 import { useTheme } from './ThemeProvider';
+import BrandLogo from './BrandLogo';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -50,21 +51,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-blue-500/30 transition-shadow">
-                <span className="text-white font-bold text-xl">PEC</span>
-              </div>
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-blue-400 rounded-full" />
-            </div>
-            <div className="hidden sm:block text-left">
-              <h1 className="font-bold text-lg leading-tight text-slate-900 dark:text-white">
-                {businessInfo.name}
-              </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Media Production
-              </p>
-            </div>
+          <Link
+            href="/"
+            className="group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900"
+            aria-label={`${businessInfo.name} home`}
+          >
+            <BrandLogo
+              priority
+              className="h-12 w-[4.125rem] transition-shadow group-hover:shadow-blue-500/30"
+            />
           </Link>
 
           {/* Desktop Navigation */}
