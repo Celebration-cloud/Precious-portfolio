@@ -1,50 +1,66 @@
+import 'server-only';
+
 import { Resend } from 'resend';
-import { businessInfo } from '../src/data/content';
+import { businessInfo } from '../data/content';
+import type { ContactInput } from '../schemas/contact';
+import { getServerEnv } from './env';
 
-const resendApiKey = process.env.RESEND_API_KEY;
+let resend: Resend | null | undefined;
 
-export const resend = resendApiKey ? new Resend(resendApiKey) : null;
+function getResend(): Resend | null {
+  if (resend !== undefined) return resend;
+  const apiKey = getServerEnv().RESEND_API_KEY;
+  resend = apiKey ? new Resend(apiKey) : null;
+  return resend;
+}
 
-export async function sendContactNotification(payload: {
-  name: string;
-  email: string;
-  phone?: string;
-  service?: string;
-  message: string;
-}) {
-  const toEmail = process.env.CONTACT_TO_EMAIL || businessInfo.email;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+export async function sendContactNotification(
+  payload: ContactInput,
+): Promise<{ success: true } | { success: false }> {
+  const env = getServerEnv();
+  const client = getResend();
+
+  if (!client || !env.CONTACT_FROM_EMAIL) {
+    console.error('Contact email delivery is not configured.');
+    return { success: false };
+  }
 
   const html = `
     <h2>New Contact Inquiry - PEC Media Production</h2>
-    <p><strong>Name:</strong> ${payload.name}</p>
-    <p><strong>Email:</strong> ${payload.email}</p>
-    <p><strong>Phone:</strong> ${payload.phone || 'N/A'}</p>
-    <p><strong>Service:</strong> ${payload.service || 'N/A'}</p>
+    <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+    <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
+    <p><strong>Phone:</strong> ${escapeHtml(payload.phone || 'N/A')}</p>
+    <p><strong>Service:</strong> ${escapeHtml(payload.service || 'N/A')}</p>
     <p><strong>Message:</strong></p>
-    <p>${payload.message.replace(/\n/g, '<br />')}</p>
+    <p>${escapeHtml(payload.message).replaceAll('\n', '<br />')}</p>
   `;
 
-  if (!resend) {
-    console.log('--- MOCK EMAIL SENT (Resend not configured) ---');
-    console.log(`From: ${fromEmail}`);
-    console.log(`To: ${toEmail}`);
-    console.log(`Subject: New Contact Inquiry from ${payload.name}`);
-    console.log(`HTML Body:\n${html}`);
-    console.log('------------------------------------------------');
-    return { success: true, mock: true };
-  }
-
   try {
-    const data = await resend.emails.send({
-      from: fromEmail,
-      to: toEmail,
+    const response = await client.emails.send({
+      from: env.CONTACT_FROM_EMAIL,
+      to: env.CONTACT_TO_EMAIL || businessInfo.email,
+      replyTo: payload.email,
       subject: `New Contact Inquiry from ${payload.name}`,
-      html: html,
+      html,
     });
-    return { success: true, data };
+
+    if (response.error) {
+      console.error('Resend rejected the contact notification.', response.error);
+      return { success: false };
+    }
+
+    return { success: true };
   } catch (error) {
-    console.error('Failed to send contact notification email via Resend:', error);
-    return { success: false, error };
+    console.error('Failed to send contact notification.', error);
+    return { success: false };
   }
 }

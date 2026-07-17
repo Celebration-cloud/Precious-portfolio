@@ -38,7 +38,12 @@ export const siteSettings = defineType({
           fields: [
             { name: 'title', title: 'Highlight Title', type: 'string' },
             { name: 'description', title: 'Highlight Description', type: 'text', rows: 2 },
-            { name: 'icon', title: 'Highlight Icon Name (Lucide)', type: 'string', description: 'e.g. Award, Star, Zap, Shield' },
+            {
+              name: 'icon',
+              title: 'Highlight Icon Name (Lucide)',
+              type: 'string',
+              description: 'e.g. Award, Star, Zap, Shield',
+            },
           ],
         },
       ],

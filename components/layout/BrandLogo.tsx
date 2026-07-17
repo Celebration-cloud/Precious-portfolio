@@ -1,22 +1,23 @@
 import Image from 'next/image';
-import { businessInfo } from '../../src/data/content';
 
 type BrandLogoProps = {
+  src: string;
+  name: string;
   className?: string;
   priority?: boolean;
 };
 
 export default function BrandLogo({
+  src,
+  name,
   className = 'h-12 w-[4.125rem]',
   priority = false,
 }: BrandLogoProps) {
   return (
-    <span
-      className={`relative block shrink-0 overflow-hidden rounded-lg shadow-lg ${className}`}
-    >
+    <span className={`relative block shrink-0 overflow-hidden rounded-lg shadow-lg ${className}`}>
       <Image
-        src={businessInfo.logo}
-        alt={`${businessInfo.name} logo`}
+        src={src}
+        alt={`${name} logo`}
         width={1080}
         height={1350}
         priority={priority}

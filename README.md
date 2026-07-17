@@ -1,89 +1,85 @@
-# PEC Media Production - Creative Agency Portfolio Website
+# PEC Media Production
 
-A premium, modern Next.js portfolio website for **PEC Media Production** (a creative media agency specializing in video production, video editing, photography, cinematography, and CV revamp services).
+A production-oriented Next.js 16 App Router portfolio for PEC Media Production.
 
-## 🚀 Tech Stack
+## Stack
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router, Server Components, and Server Actions)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Database**: [Prisma](https://www.prisma.io/) with [Neon PostgreSQL](https://neon.tech/) (with automatic local filesystem JSON data-fallbacks)
-- **Content Management**: [Sanity CMS](https://www.sanity.io/) (with embedded Studio at `/studio` and complete client-side static content fallbacks)
-- **Form Validation**: [Zod](https://zod.dev/) & [React Hook Form](https://react-hook-form.com/)
-- **Email Service**: [Resend](https://resend.com/)
+- Next.js 16, React 19, TypeScript, and Tailwind CSS 4
+- Server Components with focused Client Component islands
+- Sanity CMS with an embedded Studio at `/studio`
+- Zod-validated local content fallbacks
+- React Hook Form, Zod, Server Actions, and Resend
+- Vitest, Playwright, ESLint, and Prettier
 
----
+## Architecture
 
-## 🏛️ Architecture System
+- `app/` contains App Router pages, layouts, metadata routes, error/loading states, and Route Handlers.
+- `features/` contains page-focused interactive UI.
+- `components/` contains shared presentation and layout components.
+- `data/content.ts` is the validated fallback when Sanity is missing, empty, invalid, or unavailable.
+- `lib/sanity.ts` owns typed Sanity queries, cache tags, normalization, and fallback behavior.
+- `schemas/` contains shared Zod contracts for content, environment values, and contact submissions.
+- `actions/contact-action.ts` validates and sends contact inquiries through Resend. Inquiries are not persisted.
 
-This project is built using a decoupled **5-Layer SaaS Architecture**:
+## Environment
 
-1. **Presentation Layer (`/app`, `/components`, `/features`)**: Renders components and handles layouts. React Server Components (RSC) are prioritized, with Client Components utilized for animations (Framer Motion) and interactive forms.
-2. **Application Layer (`/actions`, `/services`)**: Orchestrates actions and business flows (e.g. form submissions, validating payloads with Zod, saving to repositories, and sending emails via Resend).
-3. **Domain Layer (`/domain/entities`, `/domain/interfaces`)**: Core enterprise rules, models, and interfaces (like repository contracts) isolated from framework dependencies.
-4. **Data Layer (`/repositories`, `/database`)**: Manages data persistence. Uses `PrismaClient` to interface with PostgreSQL, or automatically falls back to secure local JSON file logging if the database is offline or not configured.
-5. **Infrastructure Layer (`/lib`)**: Bridges external integrations (e.g., Sanity client configuration, Resend email dispatchers).
-
----
-
-## 🛠️ Getting Started
-
-### 1. Prerequisites
-- Node.js 18+
-- npm, yarn, or pnpm
-
-### 2. Environment Variables Setup
-Create a `.env` file in the root directory and specify the following variables:
+Copy `.env.example` to `.env.local` and provide only the values used by your environment.
 
 ```env
-# General
 SITE_URL=http://localhost:3000
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
-# Database (Neon PostgreSQL)
-DATABASE_URL="your-postgresql-database-url"
+SANITY_PROJECT_ID=
+SANITY_DATASET=production
+SANITY_API_VERSION=2024-01-01
+SANITY_API_TOKEN=
+SANITY_REVALIDATE_SECRET=
+NEXT_PUBLIC_SANITY_PROJECT_ID=
+NEXT_PUBLIC_SANITY_DATASET=production
 
-# Sanity CMS Credentials
-SANITY_PROJECT_ID="71wqvxpw"
-SANITY_DATASET="production"
-SANITY_API_TOKEN="your-sanity-write-token"
-
-# Resend Email Service
-RESEND_API_KEY="your-resend-api-key"
-CONTACT_TO_EMAIL="recipient@example.com"
-CONTACT_FROM_EMAIL="onboarding@resend.dev"
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=edemu34@gmail.com
+CONTACT_FROM_EMAIL=
 ```
 
-### 3. Installation & Run
-Install dependencies:
+`SANITY_API_TOKEN`, `SANITY_REVALIDATE_SECRET`, and `RESEND_API_KEY` are server-only secrets. Never prefix them with `NEXT_PUBLIC_` or commit them.
+
+## Development
+
 ```bash
 npm install
-```
-
-Run in development mode:
-```bash
 npm run dev
 ```
 
-Generate production build:
+Useful checks:
+
 ```bash
+npm run lint
+npm run typecheck
+npm test
+npm run test:e2e
 npm run build
 ```
 
----
+`npm run check` runs linting, type checking, unit tests, and the production build.
 
-## 🎨 Content Management & Sanity Studio
+## Content and Revalidation
 
-Sanity Studio is **embedded directly** inside this project. 
-- You can access the CMS manager by visiting `/studio` in your browser.
-- Authenticate with your Sanity developer account to modify services, testimonials, project lists, blog posts, and site metadata.
-- **Fail-Safe Fallbacks**: If the Sanity CMS credentials are not configured or the network is offline, the site will automatically fetch layout and text data from `/src/data/content.ts` seamlessly.
+Sanity is the preferred content source. Every Sanity response is parsed through a Zod schema before rendering. Invalid or empty content falls back to `data/content.ts`.
 
----
+Configure a Sanity webhook to send `POST /api/revalidate` with:
 
-## 🔒 Security Measures
+- Header: `x-sanity-secret: <SANITY_REVALIDATE_SECRET>`
+- Body: `{ "_type": "post" }`
 
-- **HTTP Security Headers**: Secure headers (including `CSP`, `X-Frame-Options`, `X-Content-Type-Options`, and `Referrer-Policy`) are applied via `next.config.ts`.
-- **Form Rate Limiting**: Next.js Server Actions implement sliding window rate-limiting for form submissions to protect endpoints against bot attacks.
-- **robots.txt**: Standard search engine rules are implemented in `/public/robots.txt` which disallows crawlers from accessing `/studio/` or `/api/` endpoints.
+Recognized types are `businessInfo`, `service`, `project`, `testimonial`, `post`, and `siteSettings`.
+
+## Contact Delivery
+
+The contact form uses a Zod-validated Server Action and a honeypot field. Valid inquiries are emailed through Resend and are not written to Sanity, a database, or the local filesystem. If Resend is not configured or rejects the message, the user receives a controlled failure response.
+
+Durable distributed rate limiting is intentionally not claimed by the application. Configure Vercel Firewall or another shared rate-limiting service if required.
+
+## Deployment
+
+The project is optimized for Vercel. Set production environment variables in the deployment dashboard, use `https://pecmediaproduction.com` for `SITE_URL`, and rotate any credential that has been pasted into logs, chat, or source code.

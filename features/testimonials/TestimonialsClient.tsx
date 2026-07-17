@@ -2,9 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
+import type { Testimonial } from '../../schemas/content';
 
 interface TestimonialsClientProps {
-  testimonials: any[];
+  testimonials: Testimonial[];
 }
 
 export default function TestimonialsClient({ testimonials }: TestimonialsClientProps) {
@@ -20,12 +21,15 @@ export default function TestimonialsClient({ testimonials }: TestimonialsClientP
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Testimonials</span>
+              <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">
+                Testimonials
+              </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mt-4 mb-6">
                 What Our Clients Say
               </h1>
               <p className="text-xl text-slate-300">
-                Don&apos;t just take our word for it. Here&apos;s what our clients have to say about working with us.
+                Don&apos;t just take our word for it. Here&apos;s what our clients have to say about
+                working with us.
               </p>
             </motion.div>
           </div>
@@ -79,7 +83,10 @@ export default function TestimonialsClient({ testimonials }: TestimonialsClientP
                 {/* Author */}
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-bold">
-                    {testimonial.name.split(' ').map((n: string) => n[0]).join('')}
+                    {testimonial.name
+                      .split(' ')
+                      .map((n: string) => n[0])
+                      .join('')}
                   </div>
                   <div className="ml-4">
                     <div className="font-semibold text-slate-900 dark:text-white">
@@ -101,21 +108,14 @@ export default function TestimonialsClient({ testimonials }: TestimonialsClientP
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: "50+", label: "Happy Clients" },
-              { value: "100+", label: "Projects Completed" },
-              { value: "5+", label: "Years Experience" },
-              { value: "100%", label: "Client Satisfaction" }
+              { value: '50+', label: 'Happy Clients' },
+              { value: '100+', label: 'Projects Completed' },
+              { value: '5+', label: 'Years Experience' },
+              { value: '100%', label: 'Client Satisfaction' },
             ].map((stat, index) => (
-              <div
-                key={index}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-slate-400">
-                  {stat.label}
-                </div>
+              <div key={index} className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">{stat.value}</div>
+                <div className="text-slate-400">{stat.label}</div>
               </div>
             ))}
           </div>

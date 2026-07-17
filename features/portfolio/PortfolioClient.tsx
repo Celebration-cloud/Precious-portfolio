@@ -1,29 +1,35 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowRight, 
-  ExternalLink, 
-  X,
-  Play,
-  Image as ImageIcon
-} from 'lucide-react';
+import { ArrowRight, ExternalLink, X, Play, Image as ImageIcon } from 'lucide-react';
+import type { BusinessInfo, PortfolioProject } from '../../schemas/content';
 
-const categories = ["All", "Video Production", "Video Editing", "AI-Powered Video Editing", "Motion Graphics", "Colour Grading", "Photography", "Graphics Design"];
+const categories = [
+  'All',
+  'Video Production',
+  'Video Editing',
+  'AI-Powered Video Editing',
+  'Motion Graphics',
+  'Colour Grading',
+  'Photography',
+  'Graphics Design',
+];
 
 interface PortfolioClientProps {
-  portfolioProjects: any[];
-  businessInfo: any;
+  portfolioProjects: PortfolioProject[];
+  businessInfo: BusinessInfo;
 }
 
 export default function PortfolioClient({ portfolioProjects, businessInfo }: PortfolioClientProps) {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedProject, setSelectedProject] = useState<any | null>(null);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
 
-  const filteredProjects = activeCategory === "All" 
-    ? portfolioProjects 
-    : portfolioProjects.filter(p => p.category === activeCategory);
+  const filteredProjects =
+    activeCategory === 'All'
+      ? portfolioProjects
+      : portfolioProjects.filter((p) => p.category === activeCategory);
 
   return (
     <div className="dark:bg-slate-950">
@@ -37,13 +43,15 @@ export default function PortfolioClient({ portfolioProjects, businessInfo }: Por
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Portfolio</span>
+              <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">
+                Portfolio
+              </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mt-4 mb-6">
                 Our Creative Work
               </h1>
               <p className="text-xl text-slate-300">
-                Explore our portfolio of video productions, designs, and creative projects 
-                that showcase our expertise and creativity.
+                Explore our portfolio of video productions, designs, and creative projects that
+                showcase our expertise and creativity.
               </p>
             </motion.div>
           </div>
@@ -71,10 +79,7 @@ export default function PortfolioClient({ portfolioProjects, businessInfo }: Por
           </div>
 
           {/* Projects Grid */}
-          <motion.div 
-            layout
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
-          >
+          <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
             <AnimatePresence>
               {filteredProjects.map((project) => (
                 <motion.div
@@ -87,24 +92,28 @@ export default function PortfolioClient({ portfolioProjects, businessInfo }: Por
                   className="group relative overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800 cursor-pointer"
                   onClick={() => setSelectedProject(project)}
                 >
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
                       src={project.thumbnail}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  
+
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
+
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <span className="text-blue-400 text-sm font-medium">{project.category}</span>
                     <h3 className="text-white text-xl font-semibold mt-1">{project.title}</h3>
-                    <p className="text-slate-300 text-sm mt-2 line-clamp-2">{project.description}</p>
+                    <p className="text-slate-300 text-sm mt-2 line-clamp-2">
+                      {project.description}
+                    </p>
                   </div>
-                  
+
                   {/* Play/View Icon */}
                   <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     {project.videoUrl ? (
@@ -169,7 +178,8 @@ export default function PortfolioClient({ portfolioProjects, businessInfo }: Por
                 Graphics Portfolio
               </h3>
               <p className="text-slate-600 dark:text-slate-400">
-                Browse our graphic design work on Google Drive. See our creative designs and branding projects.
+                Browse our graphic design work on Google Drive. See our creative designs and
+                branding projects.
               </p>
             </a>
           </div>
@@ -202,11 +212,13 @@ export default function PortfolioClient({ portfolioProjects, businessInfo }: Por
               </button>
 
               {/* Image */}
-              <div className="aspect-video">
-                <img
+              <div className="relative aspect-video">
+                <Image
                   src={selectedProject.thumbnail}
                   alt={selectedProject.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(min-width: 768px) 768px, 100vw"
+                  className="object-cover"
                 />
               </div>
 
@@ -224,13 +236,17 @@ export default function PortfolioClient({ portfolioProjects, businessInfo }: Por
 
                 {/* Challenge */}
                 <div className="mb-6">
-                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">The Challenge</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+                    The Challenge
+                  </h3>
                   <p className="text-slate-600 dark:text-slate-400">{selectedProject.challenge}</p>
                 </div>
 
                 {/* Solution */}
                 <div className="mb-6">
-                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Our Solution</h3>
+                  <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+                    Our Solution
+                  </h3>
                   <p className="text-slate-600 dark:text-slate-400">{selectedProject.solution}</p>
                 </div>
 

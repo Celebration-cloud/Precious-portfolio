@@ -3,7 +3,8 @@ import TestimonialsClient from '../../../features/testimonials/TestimonialsClien
 
 export const metadata = {
   title: 'Testimonials',
-  description: 'Read what our clients say about working with PEC Media Production for video creation, editing, branding, and other digital solutions.',
+  description:
+    'Read what our clients say about working with PEC Media Production for video creation, editing, branding, and other digital solutions.',
 };
 
 export default async function TestimonialsPage() {

@@ -3,7 +3,8 @@ import PortfolioClient from '../../../features/portfolio/PortfolioClient';
 
 export const metadata = {
   title: 'Portfolio',
-  description: 'View our creative works across video production, editing, AI-powered media creation, motion graphics, and graphic design.',
+  description:
+    'View our creative works across video production, editing, AI-powered media creation, motion graphics, and graphic design.',
 };
 
 export default async function PortfolioPage() {
@@ -12,10 +13,5 @@ export default async function PortfolioPage() {
     getBusinessInfo(),
   ]);
 
-  return (
-    <PortfolioClient
-      portfolioProjects={portfolioProjects}
-      businessInfo={businessInfo}
-    />
-  );
+  return <PortfolioClient portfolioProjects={portfolioProjects} businessInfo={businessInfo} />;
 }

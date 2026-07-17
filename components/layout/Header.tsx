@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { businessInfo } from '../../src/data/content';
+import type { BusinessInfo } from '../../schemas/content';
 import { useTheme } from './ThemeProvider';
 import BrandLogo from './BrandLogo';
 
@@ -19,7 +19,7 @@ const navLinks = [
   { name: 'Contact', path: '/contact' },
 ];
 
-export default function Header() {
+export default function Header({ businessInfo }: { businessInfo: BusinessInfo }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -57,6 +57,8 @@ export default function Header() {
             aria-label={`${businessInfo.name} home`}
           >
             <BrandLogo
+              src={businessInfo.logo}
+              name={businessInfo.name}
               priority
               className="h-12 w-[4.125rem] transition-shadow group-hover:shadow-blue-500/30"
             />
@@ -72,8 +74,8 @@ export default function Header() {
                   isActive(link.path)
                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                     : isScrolled
-                    ? 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-                    : 'text-slate-700 dark:text-slate-200 hover:bg-white/50 dark:hover:bg-slate-800/50'
+                      ? 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      : 'text-slate-700 dark:text-slate-200 hover:bg-white/50 dark:hover:bg-slate-800/50'
                 }`}
               >
                 {link.name}

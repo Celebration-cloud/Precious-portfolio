@@ -1,9 +1,15 @@
-import { getBusinessInfo, getTargetAudience, getBrandPersonality, getWhyChooseUs } from '../../../lib/sanity';
+import {
+  getBusinessInfo,
+  getTargetAudience,
+  getBrandPersonality,
+  getWhyChooseUs,
+} from '../../../lib/sanity';
 import AboutClient from '../../../features/about/AboutClient';
 
 export const metadata = {
   title: 'About Us',
-  description: 'Learn about our creative media agency mission, vision, brand values, and meet our founder.',
+  description:
+    'Learn about our creative media agency mission, vision, brand values, and meet our founder.',
 };
 
 export default async function AboutPage() {

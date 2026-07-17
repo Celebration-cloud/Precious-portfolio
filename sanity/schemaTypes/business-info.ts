@@ -6,6 +6,12 @@ export const businessInfo = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'logo',
+      title: 'Business Logo',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'name',
       title: 'Business Name',
       type: 'string',
@@ -41,6 +47,17 @@ export const businessInfo = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'phoneHref',
+      title: 'International Phone Value',
+      type: 'string',
+      description: 'Use international format, for example +2348133678261.',
+    }),
+    defineField({
+      name: 'whatsappUrl',
+      title: 'WhatsApp URL',
+      type: 'url',
+    }),
+    defineField({
       name: 'address',
       title: 'Address / Location',
       type: 'string',
@@ -63,7 +80,7 @@ export const businessInfo = defineType({
         { name: 'youtube', title: 'YouTube URL', type: 'url' },
         { name: 'instagram', title: 'Instagram URL', type: 'url' },
         { name: 'facebook', title: 'Facebook URL', type: 'url' },
-        { name: 'twitter', title: 'Twitter URL', type: 'url' },
+        { name: 'tiktok', title: 'TikTok URL', type: 'url' },
         { name: 'linkedin', title: 'LinkedIn URL', type: 'url' },
       ],
     }),

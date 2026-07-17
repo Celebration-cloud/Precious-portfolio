@@ -23,7 +23,8 @@ export const project = defineType({
       name: 'category',
       title: 'Category',
       type: 'string',
-      description: 'e.g., Video Production, Motion Graphics, Graphics Design, Photography, Colour Grading',
+      description:
+        'e.g., Video Production, Motion Graphics, Graphics Design, Photography, Colour Grading',
     }),
     defineField({
       name: 'description',

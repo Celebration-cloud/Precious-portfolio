@@ -1,29 +1,27 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  ArrowRight, 
-  Clock, 
-  User, 
-  Calendar,
-  Search
-} from 'lucide-react';
+import { ArrowRight, Clock, User, Calendar, Search } from 'lucide-react';
+import type { BlogPost } from '../../schemas/content';
 
-const categories = ["All", "Industry Insights", "Technology", "Marketing", "Tips & Tricks"];
+const categories = ['All', 'Industry Insights', 'Technology', 'Marketing', 'Tips & Tricks'];
 
 interface BlogClientProps {
-  blogPosts: any[];
+  blogPosts: BlogPost[];
 }
 
 export default function BlogClient({ blogPosts }: BlogClientProps) {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesCategory = activeCategory === "All" || post.category === activeCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredPosts = blogPosts.filter((post) => {
+    const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -39,7 +37,9 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Blog & Insights</span>
+              <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">
+                Blog & Insights
+              </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mt-4 mb-6">
                 Latest from Our Blog
               </h1>
@@ -87,7 +87,7 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
           </div>
 
           {/* Featured Post */}
-          {filteredPosts.length > 0 && activeCategory === "All" && !searchQuery && (
+          {filteredPosts.length > 0 && activeCategory === 'All' && !searchQuery && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -96,11 +96,13 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
             >
               <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden">
                 <div className="grid md:grid-cols-2">
-                  <div className="aspect-video md:aspect-auto">
-                    <img
+                  <div className="relative min-h-64 overflow-hidden md:min-h-full">
+                    <Image
                       src={blogPosts[0].image}
                       alt={blogPosts[0].title}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="object-cover"
                     />
                   </div>
                   <div className="p-8 md:p-12 flex flex-col justify-center">
@@ -127,13 +129,13 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
                         {blogPosts[0].readTime}
                       </span>
                     </div>
-                    <a
+                    <Link
                       href={`/blog/${blogPosts[0].id}`}
                       className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold hover:translate-x-1 transition-transform"
                     >
                       Read Article
                       <ArrowRight className="ml-2 w-5 h-5" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -142,45 +144,49 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
 
           {/* Posts Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-            {(activeCategory === "All" && !searchQuery ? blogPosts.slice(1) : filteredPosts).map((post, index) => (
-              <motion.article
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden hover:shadow-lg transition-all"
-              >
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-6 text-left">
-                  <span className="text-blue-600 dark:text-blue-400 font-medium text-sm">
-                    {post.category}
-                  </span>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      {new Date(post.date).toLocaleDateString()}
-                    </span>
-                    <span className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {post.readTime}
-                    </span>
+            {(activeCategory === 'All' && !searchQuery ? blogPosts.slice(1) : filteredPosts).map(
+              (post, index) => (
+                <motion.article
+                  key={post.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden hover:shadow-lg transition-all"
+                >
+                  <div className="relative aspect-video overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
                   </div>
-                </div>
-              </motion.article>
-            ))}
+                  <div className="p-6 text-left">
+                    <span className="text-blue-600 dark:text-blue-400 font-medium text-sm">
+                      {post.category}
+                    </span>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+                      <span className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        {new Date(post.date).toLocaleDateString()}
+                      </span>
+                      <span className="flex items-center">
+                        <Clock className="w-4 h-4 mr-1" />
+                        {post.readTime}
+                      </span>
+                    </div>
+                  </div>
+                </motion.article>
+              ),
+            )}
           </div>
 
           {/* Empty State */}
@@ -191,31 +197,6 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
               </p>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-            Subscribe to Our Newsletter
-          </h2>
-          <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Get the latest insights, tips, and industry news delivered straight to your inbox.
-          </p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
-            >
-              Subscribe
-            </button>
-          </form>
         </div>
       </section>
     </div>

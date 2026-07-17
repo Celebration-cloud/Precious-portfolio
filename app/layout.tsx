@@ -9,11 +9,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://pecmediaproduction.com'),
+  applicationName: 'PEC Media Production',
   title: {
     default: 'PEC Media Production | Creative Media & Digital Solutions Agency',
     template: '%s | PEC Media Production',
   },
-  description: 'PEC Media Production is a creative media agency specializing in video production, video editing, AI-powered video editing, photography, graphic design, cinematography, and professional CV services.',
+  description:
+    'PEC Media Production is a creative media agency specializing in video production, video editing, AI-powered video editing, photography, graphic design, cinematography, and professional CV services.',
   keywords: [
     'video production',
     'video editing',
@@ -27,19 +30,25 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'PEC Media Production' }],
   creator: 'PEC Media Production',
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://pecmediaproduction.com',
     title: 'PEC Media Production | Creative Media & Digital Solutions Agency',
-    description: 'Professional video production, editing, photography, and graphic design services. Bringing your vision to life through creative media.',
+    description:
+      'Professional video production, editing, photography, and graphic design services. Bringing your vision to life through creative media.',
     siteName: 'PEC Media Production',
+    images: [{ url: '/opengraph-image', alt: 'PEC Media Production' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'PEC Media Production | Creative Media Agency',
-    description: 'Professional video production, editing, photography, and graphic design services.',
+    description:
+      'Professional video production, editing, photography, and graphic design services.',
+    images: ['/opengraph-image'],
   },
+  icons: { icon: '/favicon.ico' },
 };
 
 export const viewport = {
@@ -48,11 +57,7 @@ export const viewport = {
   initialScale: 1.0,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
