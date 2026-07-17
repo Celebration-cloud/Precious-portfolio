@@ -25,15 +25,16 @@ const studioContentSecurityPolicy = [
   "worker-src 'self' blob:",
   "frame-src 'self' https:",
   "object-src 'none'",
-  "frame-ancestors 'none'",
+  'frame-ancestors https://*.sanity.io',
 ].join('; ');
 
 const securityHeaders = [
-  { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
 ];
+
+const publicSecurityHeaders = [{ key: 'X-Frame-Options', value: 'DENY' }, ...securityHeaders];
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -48,7 +49,7 @@ const nextConfig: NextConfig = {
       {
         source: '/:path((?!studio).*)',
         headers: [
-          ...securityHeaders,
+          ...publicSecurityHeaders,
           { key: 'Content-Security-Policy', value: publicContentSecurityPolicy },
         ],
       },
