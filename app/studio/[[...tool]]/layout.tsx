@@ -10,5 +10,5 @@ export default function StudioLayout({ children }: { children: React.ReactNode }
       <script src={DASHBOARD_BRIDGE_SCRIPT} async type="module" />
       {children}
     </div>
-  ); 
+  );
 }
